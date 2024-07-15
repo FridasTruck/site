@@ -53,7 +53,7 @@ const MenuStyle5: React.FC = () => {
     const fetchMenuItems = async () => {
       try {
         const response = await fetch(`${BASE_URL}/produtos`);
-        const data = await response.json();
+        const data = await response.json(); //`${BASE_URL}`
         setMenuItems(data.registros);
         setLoading(false);
       } catch (error) {

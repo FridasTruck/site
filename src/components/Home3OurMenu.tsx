@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../utils/api";
 
 interface MenuItem {
   id: string;
@@ -16,7 +17,7 @@ const Home3OurMenu: React.FC = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch("https://backend-production-f652.up.railway.app/produtos");
+        const response = await fetch(`${BASE_URL}/produtos`);
         const data = await response.json();
         console.log(data); // Verifique os dados recebidos no console
         setMenuItems(data.registros);

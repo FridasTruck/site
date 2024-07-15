@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { IMAGES } from "../constent/theme";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../utils/api";
 
 interface InformacoesUser {
   id: number;
@@ -22,7 +23,7 @@ const Footer4 = () => {
   useEffect(() => {
     const fetchInformacoesUser = async () => {
       try {
-        const response = await fetch("https://backend-production-f652.up.railway.app/informacoes");
+        const response = await fetch(`${BASE_URL}/informacoes`);
         const data = await response.json();
         setInformacoesUser(data.registros[0]);
         setLoading(false); // Marca o carregamento como completo após receber os dados

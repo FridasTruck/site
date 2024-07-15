@@ -2,6 +2,7 @@ import { useContext, useState, ChangeEvent } from "react";
 import { Context } from "../context/AppContext";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { BASE_URL } from "../utils/api";
 
 const SignIn = () => {
   const { showSignInForm, setShowSignInForm } = useContext(Context);
@@ -30,7 +31,7 @@ const SignIn = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://backend-production-f652.up.railway.app/usuarios/login",
+        `${BASE_URL}/usuarios/login`,
         {
           Nome: email,
           senha: password

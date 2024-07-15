@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { BASE_URL } from "../utils/api";
 
 //@ts-ignore
 //Destaques API
@@ -19,7 +20,7 @@ const HomeSpacialMenu = () => {
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
-        const response = await fetch("https://backend-production-f652.up.railway.app/produtos/produto/destaques");
+        const response = await fetch(`${BASE_URL}/produtos/produto/destaques`);
         const data = await response.json();
         console.log(data); // Verifique os dados recebidos no console
         setMenuItems(data.registros);

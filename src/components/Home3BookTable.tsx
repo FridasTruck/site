@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { IMAGES } from "../constent/theme";
+import { BASE_URL } from "../utils/api";
 
 interface InformacoesUser {
   id: number;
@@ -20,7 +21,7 @@ const Home3BookTable = () => {
   useEffect(() => {
     const fetchInformacoesUser = async () => {
       try {
-        const response = await fetch("https://backend-production-f652.up.railway.app/informacoes");
+        const response = await fetch(`${BASE_URL}/informacoes`);
         const data = await response.json();
         console.log(data); // Verifique os dados recebidos no console
         setInformacoesUser(data.registros[0]);

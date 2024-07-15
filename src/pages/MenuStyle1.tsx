@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IMAGES } from "../constent/theme";
 import CommonBanner from "../elements/CommonBanner";
+import { BASE_URL } from "../utils/api";
 
 interface Produto {
   id: number;
@@ -23,7 +24,7 @@ const MenuStyle1 = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("https://backend-production-f652.up.railway.app/categorias/categoria/categoriasProdutos");
+        const response = await fetch(`${BASE_URL}/categorias/categoria/categoriasProdutos`);
         if (!response.ok) {
           throw new Error(`Erro ao buscar dados: ${response.status} - ${response.statusText}`);
         }
