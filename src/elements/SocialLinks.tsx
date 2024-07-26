@@ -7,6 +7,27 @@ const SocialLinks = () => {
 
   return (
     <ul className="social-links">
+      {/*       <li>
+        <Link
+          target="_blank"
+          className="social-btn fab fa-facebook-f"
+          to="https://www.facebook.com/"
+        ></Link>
+      </li> */}
+      <li>
+        <Link
+          target="_blank"
+          className="social-btn fab fa-whatsapp"
+          to="https://wa.me/5547996069410"
+        ></Link>
+      </li>
+      <li>
+        <Link
+          target="_blank"
+          className="social-btn fab fa-instagram"
+          to="https://www.instagram.com/truckfridas?igsh=a3c2d3JmeDM0dGE3"
+        ></Link>
+      </li>
       <li>
         <Link
           className="social-btn"
@@ -17,27 +38,6 @@ const SocialLinks = () => {
         >
           <i className="flaticon-user"></i>
         </Link>
-      </li>
-      <li>
-        <Link
-          target="_blank"
-          className="social-btn fab fa-facebook-f"
-          to="https://www.facebook.com/"
-        ></Link>
-      </li>
-      <li>
-        <Link
-          target="_blank"
-          className="social-btn fab fa-twitter"
-          to="https://twitter.com/"
-        ></Link>
-      </li>
-      <li>
-        <Link
-          target="_blank"
-          className="social-btn fab fa-instagram"
-          to="https://www.instagram.com/"
-        ></Link>
       </li>
     </ul>
   );

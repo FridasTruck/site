@@ -24,20 +24,12 @@ const ModalEditarCategoria: React.FC<Props> = ({ show, handleClose, categoria, h
     setCategoriaEditada({ ...categoriaEditada, nomeCategoria: e.target.value });
   };
 
-  const handleDescricaoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategoriaEditada({ ...categoriaEditada, descricao: e.target.value });
-  };
-
-  const handleSituacaoAtivoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategoriaEditada({ ...categoriaEditada, situacaoAtivo: e.target.checked });
-  };
-
   const handleSalvarEdicaoCategoriaLocal = async () => {
-    await handleSalvarEdicao(categoriaEditada);
-    handleClose();
+    if (window.confirm("Tem certeza que deseja salvar as alterações?")) {
+      await handleSalvarEdicao(categoriaEditada);
+      handleClose();
+    }
   };
-
-
 
   return (
     <Modal show={show} handleClose={handleClose}>
@@ -54,24 +46,6 @@ const ModalEditarCategoria: React.FC<Props> = ({ show, handleClose, categoria, h
               value={categoriaEditada.nomeCategoria}
               onChange={handleNomeCategoriaChange}
             />
-          </div>
-          <div className="form-group">
-            <label>Descrição</label>
-            <input
-              type="text"
-              className="form-control"
-              value={categoriaEditada.descricao}
-              onChange={handleDescricaoChange}
-            />
-          </div>
-          <div className="form-check">
-            <input
-              type="checkbox"
-              className="form-check-input"
-              checked={categoriaEditada.situacaoAtivo}
-              onChange={handleSituacaoAtivoChange}
-            />
-            <label className="form-check-label">Ativo</label>
           </div>
         </div>
         <div className="modal-footer">

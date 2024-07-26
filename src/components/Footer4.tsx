@@ -37,7 +37,7 @@ const Footer4 = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading data...</div>;
+    return;
   }
 
   if (!informacoesUser) {

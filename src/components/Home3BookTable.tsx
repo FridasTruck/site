@@ -77,7 +77,7 @@ const Home3BookTable = () => {
               <li>
                 <i className="flaticon-email-1"></i>
                 <p>
-                  {informacoesUser.nomeProprietario}@example.com
+                  Email aqui!
                   <br />
                 </p>
               </li>

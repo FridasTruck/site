@@ -5,6 +5,9 @@ import OurMenuFilter from "../elements/OurMenuFilter";
 import Modal from "../pages/ModalEdit";
 import { BASE_URL } from "../utils/api";
 import ModalCategorias from "../pages/ModalCategorias";
+import novoProdutoIcon from "../assets/icons/fridastruck/novo.png";
+import categoriasIcon from "../assets/icons/fridastruck/categorias.png";
+import minhaEmpresaIcon from "../assets/icons/fridastruck/empresa.png";
 
 interface MenuItem {
   id: string;
@@ -48,20 +51,21 @@ const MenuStyle5: React.FC = () => {
   const [selectedCategoria, setSelectedCategoria] = useState<string>("");
   const authToken = localStorage.getItem("authToken");
 
+  // Função para buscar os itens do menu
+  const fetchMenuItems = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}/produtos`);
+      const data = await response.json();
+      setMenuItems(data.registros);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching menu items:", error);
+      setLoading(false);
+    }
+  };
+
   // Hook para buscar os itens do menu quando o componente é montado
   useEffect(() => {
-    const fetchMenuItems = async () => {
-      try {
-        const response = await fetch(`${BASE_URL}/produtos`);
-        const data = await response.json(); //`${BASE_URL}`
-        setMenuItems(data.registros);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching menu items:", error);
-        setLoading(false);
-      }
-    };
-
     fetchMenuItems();
   }, []);
 
@@ -79,10 +83,12 @@ const MenuStyle5: React.FC = () => {
 
     fetchCategorias();
   }, []);
+
   //Loading Informações
   if (loading) {
     return <div>Carregando Informações...</div>;
   }
+
   // Função para abrir o modal
   const handleOpenModal = (item: MenuItem) => {
     setModalContent(item);
@@ -90,6 +96,7 @@ const MenuStyle5: React.FC = () => {
     setIsFavorited(item.Destaque); // Defina o estado inicial de isFavorited com base no item atual
     setSelectedCategoria(item.CategoriaID);
   };
+
   // Função para abrir o modal para adicionar um novo item
   const handleOpenModalNovo = () => {
     const newItem: MenuItem = {
@@ -104,6 +111,7 @@ const MenuStyle5: React.FC = () => {
     setModalContent(newItem);
     setShowModal(true);
   };
+
   // Função para fechar o modal de edição/adição de item
   const handleCloseModal = () => {
     setShowModal(false);
@@ -111,15 +119,18 @@ const MenuStyle5: React.FC = () => {
     setImageBase64(""); // Limpar base64 da imagem ao fechar o modal
     setSelectedCategoria("");
   };
+
   // Função para fechar o modal de edição das informações da empresa
   const handleCloseEmpresaModal = () => {
     setShowEmpresaModal(false);
     setEmpresaContent(null);
   };
+
   // Função para alternar o estado de favorito de um item
   const handleFavorite = () => {
     setIsFavorited(!isFavorited);
   };
+
   // Função para salvar as edições ou criar um novo item
   const handleSave = async () => {
     if (!modalContent?.Imagem) {
@@ -138,12 +149,13 @@ const MenuStyle5: React.FC = () => {
       }
     }
   };
+
   // Função para excluir um item
   const handleDelete = async () => {
     if (window.confirm("Você tem certeza que deseja excluir este item?")) {
       try {
         const response = await fetch(
-          (`${BASE_URL}/produtos/deletar/${modalContent?.id}`),
+          `${BASE_URL}/produtos/deletar/${modalContent?.id}`,
           {
             method: "DELETE",
             headers: {
@@ -156,6 +168,7 @@ const MenuStyle5: React.FC = () => {
           // Remova localmente o item do menu após a exclusão bem-sucedida
           setMenuItems(prevItems => prevItems.filter(item => item.id !== modalContent?.id));
           handleCloseModal();
+          fetchMenuItems(); // Atualize os itens do menu após a exclusão
         } else {
           console.error("Failed to delete item");
         }
@@ -164,13 +177,14 @@ const MenuStyle5: React.FC = () => {
       }
     }
   };
+
   // Função para atualizar um item existente
   const handleUpdateItem = async () => {
     try {
       if (!modalContent) return;
 
       const response = await fetch(
-        (`${BASE_URL}/produtos/alterar/${modalContent.id}`),
+        `${BASE_URL}/produtos/alterar/${modalContent.id}`,
         {
           method: "PUT",
           headers: {
@@ -189,11 +203,12 @@ const MenuStyle5: React.FC = () => {
 
       if (response.ok) {
         // Atualize localmente o item do menu após a atualização bem-sucedida
+        const updatedItem = await response.json();
         setMenuItems(prevItems =>
-          prevItems.map(item => (item.id === modalContent?.id ? modalContent : item))
+          prevItems.map(item => (item.id === modalContent.id ? updatedItem : item))
         );
         handleCloseModal();
-        window.location.reload(); // Atualiza a página após salvar
+        fetchMenuItems(); // Atualize os itens do menu após a atualização
       } else {
         console.error("Failed to update item");
       }
@@ -201,13 +216,14 @@ const MenuStyle5: React.FC = () => {
       console.error("Error updating item:", error);
     }
   };
+
   // Função para criar um novo item
   const handleCreateItem = async () => {
     try {
       if (!modalContent) return;
 
       const response = await fetch(
-        (`${BASE_URL}/produtos/cadastrar`),
+        `${BASE_URL}/produtos/cadastrar`,
         {
           method: "POST",
           headers: {
@@ -229,7 +245,7 @@ const MenuStyle5: React.FC = () => {
         const newItem = await response.json();
         setMenuItems(prevItems => [...prevItems, newItem]);
         handleCloseModal();
-        window.location.reload(); // Atualiza a página após salvar
+        fetchMenuItems(); // Atualize os itens do menu após a criação
       } else {
         console.error("Failed to create item");
       }
@@ -237,6 +253,7 @@ const MenuStyle5: React.FC = () => {
       console.error("Error creating item:", error);
     }
   };
+
   // Função para abrir o modal de edição das informações da empresa
   const handleOpenEmpresaModal = async () => {
     try {
@@ -253,6 +270,7 @@ const MenuStyle5: React.FC = () => {
       console.error("Error fetching empresa information:", error);
     }
   };
+
   // Função para salvar as informações editadas da empresa
   const handleSaveEmpresa = async () => {
     if (window.confirm("Você tem certeza que deseja salvar as informações da empresa?")) {
@@ -264,7 +282,7 @@ const MenuStyle5: React.FC = () => {
         }
 
         const response = await fetch(
-          (`${BASE_URL}/informacoes/alterar/${id}`),
+          `${BASE_URL}/informacoes/alterar/${id}`,
           {
             method: "PUT",
             headers: {
@@ -276,7 +294,6 @@ const MenuStyle5: React.FC = () => {
 
         if (response.ok) {
           handleCloseEmpresaModal();
-          window.location.reload(); // Atualiza a página após salvar
         } else {
           const responseData = await response.json();
           console.error("Failed to update empresa information:", responseData);
@@ -286,6 +303,7 @@ const MenuStyle5: React.FC = () => {
       }
     }
   };
+
   // Verifica se um arquivo foi selecionado
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) return;
@@ -300,6 +318,7 @@ const MenuStyle5: React.FC = () => {
       });
     };
   };
+
   // Função para abrir o modal de categorias
   const handleOpenModalCategorias = () => {
     setShowCategoriasModal(true);
@@ -314,13 +333,16 @@ const MenuStyle5: React.FC = () => {
           <div className="row">
             <div className="col-12 text-end mb-3">
               <div className="d-flex flex-wrap justify-content-end">
-                <button className="btn btn-primary btn-hover-2 me-3 mb-2" onClick={() => handleOpenModalNovo()}>
+                <button className="btn btn-primary btn-hover-2 me-3 mb-2" onClick={handleOpenModalNovo}>
+                  <img src={novoProdutoIcon} alt="Novo Produto" className="me-2" />
                   Novo Produto
                 </button>
-                <button className="btn btn-primary btn-hover-2 me-3 mb-2" onClick={() => handleOpenModalCategorias()}>
+                <button className="btn btn-primary btn-hover-2 me-3 mb-2" onClick={handleOpenModalCategorias}>
+                  <img src={categoriasIcon} alt="Categorias" className="me-2" />
                   Categorias
                 </button>
-                <button className="btn btn-secondary btn-hover-2 mb-2" onClick={() => handleOpenEmpresaModal()}>
+                <button className="btn btn-hover-2 mb-2" onClick={handleOpenEmpresaModal} style={{backgroundColor:"black"}}>
+                  <img src={minhaEmpresaIcon} alt="Minha Empresa" className="me-2" />
                   Minha Empresa
                 </button>
               </div>

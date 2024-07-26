@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { IMAGES } from "../constent/theme";
-import Menu from "./Menu";
 import Sidebar from "../elements/Sidebar";
 import { useContext, useEffect, useState } from "react";
 import { Context } from "../context/AppContext";
@@ -123,7 +122,6 @@ const Header2 = () => {
                 }`}
                 id="navbarNavDropdown"
               >
-                <Menu />
               </div>
             </div>
           </div>

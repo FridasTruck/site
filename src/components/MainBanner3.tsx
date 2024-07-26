@@ -31,11 +31,11 @@ const MainBanner3 = () => {
                         </span>
                       </Link>
                       <Link
-                        to="/about-us"
+                        to="/our-menu-1"
                         className="btn btn-outline-primary btn-md shadow-primary btn-hover-3"
                       >
                         <span className="btn-text" data-text="Clique Aqui">
-                          Veja mais
+                          Cardápio
                         </span>
                       </Link>
                     </div>

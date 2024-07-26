@@ -138,7 +138,7 @@
   --rgba-primary-8: rgba(238, 39, 55, 0.8);
   --rgba-primary-9: rgba(238, 39, 55, 0.9);
   --theme-text-color: #fff;
-  --secondary: #222222;
+  --secondary: #fff;
   --title: #222222;
   --bg-light: #ffeff0;
 }
@@ -33410,13 +33410,13 @@ pre {
 
 
 .logo-image {
-  width: 70px; /* Tamanho padrão */
+  width: 125px; /* Tamanho padrão */
   height: auto;
 }
 
 @media (max-width: 768px) {
   .logo-image {
-    width: 100px; /* Tamanho reduzido para telas menores */
+    width: 150px; /* Tamanho reduzido para telas menores */
   }
 }
 
@@ -33437,3 +33437,66 @@ pre {
   border-color: #1e7e34;
 }
 
+
+
+.dz-shop-card .dz-content {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.dz-shop-card .dz-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.dz-shop-card .dz-head .header-text {
+  flex-grow: 1;
+  margin-right: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dz-shop-card .dz-head .img-line {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #ddd;
+  margin: 0 10px;
+}
+
+.dz-shop-card .dz-head .header-price {
+  font-size: 1.2rem;
+  color: #333;
+}
+
+/* Responsividade */
+@media (max-width: 767.98px) {
+  .dz-shop-card .dz-head .header-text {
+    margin-right: 5px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .responsive-container .dz-shop-card .dz-content {
+    padding: 1rem;
+  }
+  .responsive-container .dz-shop-card .dz-head .header-text,
+  .responsive-container .dz-shop-card .dz-head .header-price {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .responsive-container .dz-shop-card .dz-head .header-text {
+    max-width: calc(100% - 100px); /* Ajuste conforme necessário */
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-container .dz-shop-card .dz-content {
+    padding: 1.5rem;
+  }
+  .responsive-container .dz-shop-card .dz-head .header-text {
+    white-space: normal;
+  }
+}

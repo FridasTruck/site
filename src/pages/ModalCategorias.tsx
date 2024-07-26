@@ -79,24 +79,32 @@ const ModalCategorias: React.FC<Props> = ({ show, handleClose }) => {
     }
   };
 
-  const handleExcluirCategoria = async (id: string) => {
-    try {
-      const authToken = localStorage.getItem("authToken");
+  const handleExcluirCategoria = async (categoria: Categoria) => {
+    const nomeCategoriaConfirmacao = window.prompt(
+      `Tem certeza que deseja excluir a categoria "${categoria.nomeCategoria}"? Digite o nome da categoria para confirmar:`
+    );
 
-      const response = await fetch(`${BASE_URL}/categorias/deletar/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
+    if (nomeCategoriaConfirmacao === categoria.nomeCategoria) {
+      try {
+        const authToken = localStorage.getItem("authToken");
 
-      if (response.ok) {
-        await fetchCategorias();
-      } else {
-        console.error("Erro ao excluir categoria:", response.statusText);
+        const response = await fetch(`${BASE_URL}/categorias/deletar/${categoria.ID}`, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        });
+
+        if (response.ok) {
+          await fetchCategorias();
+        } else {
+          console.error("Erro ao excluir categoria:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Erro ao excluir categoria:", error);
       }
-    } catch (error) {
-      console.error("Erro ao excluir categoria:", error);
+    } else {
+      alert("O nome da categoria digitado não corresponde. A exclusão foi cancelada.");
     }
   };
 
@@ -130,7 +138,7 @@ const ModalCategorias: React.FC<Props> = ({ show, handleClose }) => {
                   <button className="btn btn-green btn-hover-2" style={{ marginRight: "8px" }} onClick={() => handleEditarCategoria(categoria)}>
                     Editar
                   </button>
-                  <button className="btn btn-danger" onClick={() => handleExcluirCategoria(categoria.ID)}>
+                  <button className="btn btn-danger" onClick={() => handleExcluirCategoria(categoria)}>
                     Excluir
                   </button>
                 </div>

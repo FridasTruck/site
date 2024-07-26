@@ -35,6 +35,9 @@ const Home3OurMenu: React.FC = () => {
     return <div>Loading menu items...</div>;
   }
 
+  // Ordenar os itens do menu em ordem alfabética pela descrição
+  const sortedMenuItems = [...menuItems].sort((a, b) => a.Descricao.localeCompare(b.Descricao));
+
   return (
     <>
       <div className="row">
@@ -50,31 +53,41 @@ const Home3OurMenu: React.FC = () => {
       </div>
       <div className="clearfix">
         <ul id="masonry" className="row dlab-gallery-listing gallery">
-          {menuItems.map(({ Nome, Preco, Descricao, Imagem }, ind) => (
+          {sortedMenuItems.map(({ Nome, Preco, Descricao, Imagem }, ind) => (
             <li
               className="card-container col-lg-4 col-md-6 m-b30 All drink pizza burger wow fadeInUp"
               key={ind}
             >
-              <div className="dz-img-box style-7">
-                <div className="dz-media">
-                  <img src={Imagem} alt="/" /> {/* Utiliza a propriedade Imagem do MenuItem */}
-                  <div className="dz-meta">
-                    {/* <ul>
-                      <li className="seller">Mais Vendido</li>
-                      <li className="rating">
-                        <i className="fa-solid fa-star"></i> 4.5
-                      </li>
-                    </ul> */}
-                  </div>
+              <div className="dz-img-box style-7" style={{ padding: "10px" }}>
+                <div 
+                  className="dz-media" 
+                  style={{ 
+                    display: "flex", 
+                    justifyContent: "center", 
+                    alignItems: "center", 
+                    width: "100%", 
+                    height: "200px", 
+                    overflow: "hidden", 
+                    position: "relative" 
+                  }}>
+                  <img 
+                    src={Imagem} 
+                    alt="/" 
+                    style={{ 
+                      width: "70%", 
+                      height: "auto", 
+                      objectFit: "cover" 
+                    }} 
+                  /> {/* Utiliza a propriedade Imagem do MenuItem */}
                 </div>
-                <div className="dz-content">
-                  <h5 className="title">
+                <div className="dz-content" style={{ padding: "10px" }}>
+                  <h5 className="title" style={{ fontSize: "16px", margin: "10px 0" }}>
                     <Link to="/product-detail">{Nome}</Link>
                   </h5>
-                  <p>
+                  <p style={{ fontSize: "14px", margin: "10px 0" }}>
                     {Descricao}
                   </p>
-                  <span className="price">R${Preco}</span>
+                  <span className="price" style={{ fontSize: "14px", fontWeight: "bold" }}>R${Preco}</span>
                 </div>
               </div>
             </li>
